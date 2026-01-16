@@ -9,19 +9,9 @@ Theme customization (Liquid), accessible JS drawer, Storefront API metaobject fe
 
 ### 1) Theme Setup (Tasks A–C)
 
-```bash
-# Clone repository
-git clone <repository-url>
-cd allure-assessment/theme
-
-# Authenticate with Shopify store
-shopify login --store=your-store-name.myshopify.com
-
-# Push to development store
-shopify theme dev
-```
-
-**Next**: In Shopify Admin → **Online Store** → **Customize** → Add section **"Product Key Info + Size Guide"** to product template
+- Upload the `theme/` folder to your Shopify dev store (Dawn)
+- Add the section **“Product Key Info + Size Guide”** to a product template
+- Ensure at least one product exists
 
 ---
 
