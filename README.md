@@ -318,6 +318,6 @@ function renderMetaobjectData(data) {
 
 - Preview link: - https://abhijeetstore1.myshopify.com/?country=IN&preview_theme_id=146272944263
 - Password: - abhijeet
-- video of work: - https://www.awesomescreenshot.com/video/48449196?key=fe0bfe9620435c235b8fbe687118f3ee
+- Video of my work: - https://www.awesomescreenshot.com/video/48449196?key=fe0bfe9620435c235b8fbe687118f3ee
   
 
