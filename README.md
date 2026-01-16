@@ -91,6 +91,9 @@ shopify app deploy
 
 **Screenshot**: 
 
+<img width="1895" height="895" alt="image" src="https://github.com/user-attachments/assets/798f3bc4-5133-4517-a44e-9a2a97657a13" />
+
+
 ---
 
 ### Task B – Size Guide Drawer (Vanilla JavaScript)
@@ -110,6 +113,8 @@ shopify app deploy
 **CSS**: [theme/assets/product-size-guide.css](theme/assets/product-size-guide.css)
 
 **Screenshot**: 
+
+<img width="1916" height="941" alt="image" src="https://github.com/user-attachments/assets/7bd7d53f-f854-4288-975f-53299c7880a3" />
 
 ---
 
@@ -163,6 +168,9 @@ async function fetchSizeGuideData(metaobjectType) {
 
 **Screenshot**: 
 
+<img width="1912" height="888" alt="image" src="https://github.com/user-attachments/assets/0b214bff-e38c-42de-b00c-ffc5f76dd173" />
+
+
 ---
 
 ### Task D – Customer Account UI Extension
@@ -179,6 +187,8 @@ async function fetchSizeGuideData(metaobjectType) {
 **File**: [app/order-support-helper/extensions/order-status-helper/src/OrderStatusBlock.jsx](app/order-support-helper/extensions/order-status-helper/src/OrderStatusBlock.jsx)
 
 **Screenshot**: 
+
+<img width="1905" height="977" alt="image" src="https://github.com/user-attachments/assets/421b4c93-cb55-4143-af50-e021f9ff8c60" />
 
 ---
 
@@ -269,14 +279,8 @@ allure-assessment/
 
 - [ ] Implement **backend proxy** for API calls (move token server-side)
 - [ ] Add **client-side caching** using localStorage with TTL
-- [ ] Integrate **support form** with email/ticketing system
-- [ ] Add **analytics tracking** (panel opens, button clicks)
-- [ ] Implement **error tracking** (Sentry, Shopify error reporting)
-- [ ] Add **unit tests** (Jest) for drawer logic and API calls
-- [ ] Optimize **images** in size guide metaobjects
 - [ ] Add **multi-language support** (i18n)
 - [ ] Performance audit: **Lighthouse**, **Core Web Vitals**
-- [ ] Cross-browser testing: **Safari, Firefox, Edge**
 
 ---
 
