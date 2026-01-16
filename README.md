@@ -273,7 +273,6 @@ allure-assessment/
 | **No backend support form** | Support form uses `mailto:` only | Shopify Forms app or custom backend | High |
 | **Static size guide** | Same data for all products | Product-specific metaobject references | Medium |
 | **Basic error messages** | Generic error text | Detailed logging (Sentry) | Low |
-| **No image optimization** | Large size guide images | Lazy loading + responsive images | Low |
 
 ### TODOs for Production
 
@@ -316,4 +315,9 @@ function renderMetaobjectData(data) {
 ---
 
 ## Proof of Functionality
+
+- Preview link: - https://abhijeetstore1.myshopify.com/?country=IN&preview_theme_id=146272944263
+- Password: - abhijeet
+- video of work: - https://www.awesomescreenshot.com/video/48449196?key=fe0bfe9620435c235b8fbe687118f3ee
+  
 
