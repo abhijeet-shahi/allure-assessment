@@ -1,3 +1,10 @@
+* GraphQL Query for fetching metaobjects
+* 
+* This query fetches metaobjects by type and retrieves:
+* - handle: unique identifier
+* - fields: title and body content
+
+
 query GetMetaobjects($type: String!, $first: Int!) {
   metaobjects(type: $type, first: $first) {
     edges {

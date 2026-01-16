@@ -10,15 +10,6 @@ export default async function extension() {
 function OrderHelpExtension() {
   const [showSupportPanel, setShowSupportPanel] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-
-  // TODO: Replace `orderNumber` with the correct field from the
-  // Customer Account order API for this target once known.
-  //
-  // For example, once you read the order details from the `shopify` APIs,
-  // you might do something like:
-  // const orderNumber = shopify.order.current.value.name ?? shopify.order.current.value.id;
-  //
-  // For now we use a placeholder so the structure is clear.
   const order = useOrder();
   const orderNumber = order?.name ?? '';
 
