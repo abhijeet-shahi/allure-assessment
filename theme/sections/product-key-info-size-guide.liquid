@@ -1,0 +1,416 @@
+{{ 'product-size-guide.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  TASK A: Product Key Info + Size Guide Section
+  
+  This section displays core product information (title, price, variants)
+  and includes a configurable Size Guide button that opens a drawer.
+  
+  Trade-offs:
+  - Uses Dawn's existing variant picker patterns for consistency
+  - Minimal custom CSS to leverage Dawn's design system
+  - Schema-driven configuration for flexibility
+{%- endcomment -%}
+
+{%- comment -%}
+  UI/UX Design: Constrained width, clear hierarchy, balanced spacing
+  - Max-width container prevents excessive horizontal stretch
+  - Vertical rhythm creates natural reading flow
+  - Reduced visual weight on form elements
+{%- endcomment -%}
+
+{%- assign product_form_id = 'product-form-' | append: section.id -%}
+
+<div class="product-key-info" id="ProductKeyInfo-{{ section.id }}" data-section="{{ section.id }}">
+  <div class="product-key-info__inner">
+    <div class="product-key-info__grid">
+      
+      {%- comment -%} Left Column: Product Media {%- endcomment -%}
+      <div class="product-key-info__media">
+        {%- if product.featured_media -%}
+          <div class="product-key-info__media-wrapper">
+             <img
+              src="{{ product.featured_media | image_url: width: 1000 }}"
+              alt="{{ product.featured_media.alt | escape }}"
+              loading="lazy"
+              width="{{ product.featured_media.width }}"
+              height="{{ product.featured_media.height }}"
+              class="product-key-info__image"
+            >
+          </div>
+        {%- else -%}
+          <div class="product-key-info__media-placeholder">
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Right Column: Product Info {%- endcomment -%}
+      <div class="product-key-info__content">
+        
+        {%- comment -%} Primary: Product Title {%- endcomment -%}
+        <h1 class="product-key-info__title">
+          {{ product.title | escape }}
+        </h1>
+
+        {%- comment -%} Secondary: Price {%- endcomment -%}
+        <div class="product-key-info__price">
+          {%- if product.compare_at_price_max > product.price -%}
+            <span class="product-key-info__price-sale">
+              {{ product.price | money }}
+            </span>
+            <span class="product-key-info__price-compare">
+              {{ product.compare_at_price_max | money }}
+            </span>
+          {%- else -%}
+            <span class="product-key-info__price-regular">
+              {{ product.price | money }}
+            </span>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Form Start {%- endcomment -%}
+        {%- form 'product', product, id: product_form_id, class: 'product-key-info__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          <input type="hidden" name="return_to" value="/checkout">
+
+          {%- comment -%} Tertiary: Variant Selector {%- endcomment -%}
+          {%- unless product.has_only_default_variant -%}
+            <div class="product-key-info__options">
+              <variant-selects 
+                id="variant-selects-{{ section.id }}" 
+                class="no-js-hidden" 
+                data-section="{{ section.id }}"
+                data-url="{{ product.url }}"
+              >
+                {%- for option in product.options_with_values -%}
+                  <div class="product-key-info__option-group">
+                    <label class="product-key-info__option-label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
+                      {{ option.name }}
+                    </label>
+                    <div class="product-key-info__select-wrapper">
+                      <select
+                        id="Option-{{ section.id }}-{{ forloop.index0 }}"
+                        class="product-key-info__select"
+                        name="options[{{ option.name | escape }}]"
+                        form="{{ product_form_id }}"
+                      >
+                        {%- for value in option.values -%}
+                          <option 
+                            value="{{ value | escape }}"
+                            {% if option.selected_value == value %}selected="selected"{% endif %}
+                          >
+                            {{ value }}
+                          </option>
+                        {%- endfor -%}
+                      </select>
+                      <svg class="product-key-info__select-icon" aria-hidden="true" focusable="false" viewBox="0 0 10 6">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"/>
+                      </svg>
+                    </div>
+                  </div>
+                {%- endfor -%}
+              </variant-selects>
+            </div>
+          {%- endunless -%}
+
+          {%- comment -%} Size Guide CTA {%- endcomment -%}
+          <div class="product-key-info__size-guide">
+            <button 
+              type="button"
+              class="product-key-info__size-guide-btn"
+              data-size-guide-trigger
+              data-section-id="{{ section.id }}"
+              data-metaobject-type="{{ section.settings.metaobject_type }}"
+              data-empty-message="{{ section.settings.empty_state_message | escape }}"
+              aria-expanded="false"
+              aria-controls="SizeGuideDrawer-{{ section.id }}"
+            >
+              <svg class="product-key-info__size-guide-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/>
+                <line x1="3" y1="9" x2="21" y2="9" stroke-width="1.5"/>
+                <line x1="9" y1="9" x2="9" y2="21" stroke-width="1.5"/>
+              </svg>
+              <span>{{ section.settings.button_label | escape }}</span>
+            </button>
+          </div>
+
+          {%- comment -%} Quantity & Buy Buttons {%- endcomment -%}
+          <div class="product-key-info__actions-group">
+            <div class="product-key-info__quantity">
+              <label class="product-key-info__quantity-label" for="Quantity-{{ section.id }}">
+                {{ 'products.product.quantity.label' | t }}
+              </label>
+              <div class="product-key-info__quantity-wrapper">
+                <button type="button" name="minus" class="quantity__button" data-action="decrease">
+                   <svg aria-hidden="true" focusable="false" viewBox="0 0 10 2">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M.5 1C.5.7.7.5 1 .5h8a.5.5 0 110 1H1A.5.5 0 01.5 1z" fill="currentColor"/>
+                  </svg>
+                </button>
+                <input class="quantity__input"
+                    type="number"
+                    name="quantity"
+                    id="Quantity-{{ section.id }}"
+                    min="1"
+                    value="1"
+                    form="{{ product_form_id }}"
+                  >
+                <button type="button" name="plus" class="quantity__button" data-action="increase">
+                  <svg aria-hidden="true" focusable="false" viewBox="0 0 10 10">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M1 4.51a.5.5 0 000 1h3.5l.01 3.5a.5.5 0 001 0V5.51h3.5a.5.5 0 000-1H6.01V1a.5.5 0 00-1 0v3.51H1z" fill="currentColor"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="product-key-info__buttons">
+              <button
+                type="submit"
+                name="add"
+                class="button button--primary button--full-width"
+                {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+              >
+                  {%- if product.selected_or_first_available_variant.available -%}
+                    Buy Now
+                  {%- else -%}
+                    Sold Out
+                  {%- endif -%}
+              </button>
+            </div>
+          </div>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const section = document.querySelector('[data-section="{{ section.id }}"]');
+    const form = section.querySelector('form[action*="/cart/add"]');
+    const idInput = form.querySelector('input[name="id"]');
+    const quantityInput = form.querySelector('input[name="quantity"]');
+    const selectors = section.querySelectorAll('.product-key-info__select');
+    const priceContainer = section.querySelector('.product-key-info__price');
+    const submitButton = section.querySelector('button[type="submit"]');
+    
+    // Quantity Handling
+    const quantityWrapper = section.querySelector('.product-key-info__quantity-wrapper');
+    if (quantityWrapper) {
+      quantityWrapper.addEventListener('click', function(e) {
+        const button = e.target.closest('button');
+        if (!button || !quantityInput) return;
+
+        const action = button.dataset.action;
+        let currentValue = parseInt(quantityInput.value) || 1;
+
+        if (action === 'decrease') {
+          if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+          }
+        } else if (action === 'increase') {
+          quantityInput.value = currentValue + 1;
+        }
+      });
+    }
+
+    // Pass variants as JSON
+    const variants = [
+      {%- for variant in product.variants -%}
+        {
+          id: {{ variant.id }},
+          title: {{ variant.title | json }},
+          options: [
+            {{ variant.option1 | json }},
+            {{ variant.option2 | json }},
+            {{ variant.option3 | json }}
+          ],
+          available: {{ variant.available }},
+          price: {{ variant.price }},
+          compare_at_price: {{ variant.compare_at_price | default: 0 }},
+          featured_media: {{ variant.featured_media | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ];
+
+    function formatMoney(cents) {
+      return (cents / 100).toLocaleString('en-US', {
+        style: 'currency',
+        currency: '{{ cart.currency.iso_code }}'
+      });
+    }
+
+    function updateVariant() {
+      // Get currently selected options
+      const selectedOptions = Array.from(selectors).map(select => select.value);
+      
+      // Find matching variant
+      const matchedVariant = variants.find(variant => {
+        return selectedOptions.every((option, index) => {
+          return variant.options[index] === option;
+        });
+      });
+
+      if (matchedVariant) {
+        // Update hidden ID input
+        idInput.value = matchedVariant.id;
+        
+        // Update URL (optional, improves UX)
+        window.history.replaceState({}, '', `?variant=${matchedVariant.id}`);
+
+        // Update Price
+        let priceHtml = '';
+        if (matchedVariant.compare_at_price > matchedVariant.price) {
+          priceHtml = `
+            <span class="product-key-info__price-sale">${formatMoney(matchedVariant.price)}</span>
+            <span class="product-key-info__price-compare">${formatMoney(matchedVariant.compare_at_price)}</span>
+          `;
+        } else {
+          priceHtml = `<span class="product-key-info__price-regular">${formatMoney(matchedVariant.price)}</span>`;
+        }
+        priceContainer.innerHTML = priceHtml;
+
+        // Update Button State
+        if (matchedVariant.available) {
+          submitButton.removeAttribute('disabled');
+          submitButton.textContent = 'Buy Now';
+        } else {
+          submitButton.setAttribute('disabled', 'disabled');
+          submitButton.textContent = 'Sold Out';
+        }
+
+        // Update Image (if variant has specific image)
+        if (matchedVariant.featured_media) {
+           const imageElement = section.querySelector('.product-key-info__image');
+           if (imageElement && matchedVariant.featured_media.preview_image) {
+             imageElement.src = matchedVariant.featured_media.preview_image.src;
+             // You might want to handle srcset/width logic here for full robustness, 
+             // but src update is key for immediate feedback
+           }
+        }
+      }
+    }
+
+    // Add event listeners
+    selectors.forEach(select => {
+      select.addEventListener('change', updateVariant);
+    });
+  });
+</script>
+
+{%- comment -%}
+  TASK B & C: Size Guide Drawer
+  
+  This drawer is populated dynamically via JavaScript using the Storefront API.
+  The drawer markup is minimal to keep the Liquid clean.
+  
+  Trade-offs:
+  - Client-side rendering for flexibility and real-time updates
+  - Drawer content is fetched on first open (lazy loading)
+  - ARIA attributes managed by JavaScript for dynamic states
+{%- endcomment -%}
+
+<div 
+  id="SizeGuideDrawer-{{ section.id }}"
+  class="size-guide-drawer"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="SizeGuideDrawer-Title-{{ section.id }}"
+  data-size-guide-drawer
+  hidden
+>
+  <div class="size-guide-drawer__overlay" data-drawer-overlay></div>
+  <div class="size-guide-drawer__panel">
+    <div class="size-guide-drawer__header">
+      <h2 id="SizeGuideDrawer-Title-{{ section.id }}" class="size-guide-drawer__title">
+        {{ section.settings.button_label | escape }}
+      </h2>
+      <button 
+        type="button"
+        class="size-guide-drawer__close"
+        data-drawer-close
+        aria-label="{{ 'accessibility.close' | t }}"
+      >
+        <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 18 18">
+          <path d="M17 1L1 17M1 1l16 16" stroke="currentColor" stroke-width="2" fill="none"/>
+        </svg>
+      </button>
+    </div>
+    <div class="size-guide-drawer__content" data-drawer-content>
+      {%- comment -%} Content loaded dynamically via JavaScript {%- endcomment -%}
+      <div class="size-guide-drawer__loading">
+        <div class="loading-spinner"></div>
+        <p>{{ 'general.loading' | t | default: 'Loading...' }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- comment -%}
+  Inject Storefront API credentials for JavaScript to use
+  The token is configured in the section settings below
+{%- endcomment -%}
+<script>
+  window.Shopify = window.Shopify || {};
+  window.Shopify.storefrontToken = {{ section.settings.storefront_api_token | json }};
+  window.Shopify.shop = {{ shop.permanent_domain | json }};
+</script>
+
+<script src="{{ 'product-size-guide.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Product Info Size Guide",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Size Guide Settings"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Size Guide",
+      "info": "Text displayed on the size guide button"
+    },
+    {
+      "type": "text",
+      "id": "metaobject_type",
+      "label": "Metaobject Type",
+      "default": "size_guide",
+      "info": "The type of metaobject to fetch from Storefront API"
+    },
+    {
+      "type": "textarea",
+      "id": "empty_state_message",
+      "label": "Empty State Message",
+      "default": "No size guide available at this time.",
+      "info": "Message shown when no metaobject data is found"
+    },
+    {
+      "type": "header",
+      "content": "Storefront API Configuration"
+    },
+    {
+      "type": "text",
+      "id": "storefront_api_token",
+      "label": "Storefront API Access Token",
+      "info": "Enter your Storefront API access token. Create one in: Settings > Apps and sales channels > Develop apps > Create an app > Configure Storefront API scopes (unauthenticated_read_metaobjects)"
+    },
+    {
+      "type": "paragraph",
+      "content": "⚠️ Security: Only use Storefront API tokens (public, read-only). Never use Admin API tokens in themes."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Info Size Guide"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

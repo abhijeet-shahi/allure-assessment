@@ -1,0 +1,775 @@
+/**
+ * TASK B: Size Guide Drawer Styles
+ * 
+ * Mobile-first, responsive CSS for the size guide drawer component.
+ * Follows Dawn's design system conventions and CSS custom properties.
+ * 
+ * Trade-offs:
+ * - Uses CSS transforms for smooth animations (GPU-accelerated)
+ * - Drawer slides in from right on desktop, bottom on mobile
+ * - Minimal custom properties to stay compatible with Dawn
+ */
+
+/* ============================================
+   Product Key Info Section - Redesigned
+   
+   UX Principles:
+   - Constrained width (max 120rem) for full product page feel
+   - 2-column Grid: Media (Left) | Content (Right) at desktop
+   - Mobile-first responsive design (stacks on small screens)
+   - Clear vertical rhythm and hierarchy
+   ============================================ */
+
+.product-key-info {
+  padding: 0;
+  margin: 0 auto;
+}
+
+.product-key-info__inner {
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* Grid Layout */
+.product-key-info__grid {
+  display: grid;
+  gap: 3rem;
+  grid-template-columns: 1fr;
+}
+
+/* Media Column */
+.product-key-info__media {
+  width: 100%;
+}
+
+.product-key-info__media-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  /* Square aspect ratio by default */
+  overflow: hidden;
+  border-radius: 0.8rem;
+  background-color: rgba(var(--color-foreground), 0.04);
+}
+
+.product-key-info__media-placeholder {
+  width: 100%;
+  border-radius: 0.8rem;
+  overflow: hidden;
+}
+
+.product-key-info__image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Keep image fully visible */
+  transition: transform 0.3s ease;
+}
+
+/* Content Column */
+.product-key-info__content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Primary Hierarchy: Product Title */
+.product-key-info__title {
+  margin: 0 0 1.2rem 0;
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: rgb(var(--color-foreground));
+}
+
+/* Secondary Hierarchy: Price */
+.product-key-info__price {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.product-key-info__price-regular,
+.product-key-info__price-sale {
+  font-size: 2rem;
+  font-weight: 500;
+  color: rgb(var(--color-foreground));
+}
+
+.product-key-info__price-sale {
+  color: rgb(var(--color-base-accent-1, 220, 53, 69));
+}
+
+.product-key-info__price-compare {
+  font-size: 1.6rem;
+  color: rgba(var(--color-foreground), 0.5);
+  text-decoration: line-through;
+}
+
+/* Tertiary Hierarchy: Variant Options */
+.product-key-info__options {
+  margin-bottom: 2rem;
+}
+
+.product-key-info__option-group {
+  margin-bottom: 1.6rem;
+}
+
+.product-key-info__option-group:last-child {
+  margin-bottom: 0;
+}
+
+.product-key-info__option-label {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: rgb(var(--color-foreground));
+  letter-spacing: 0.02em;
+}
+
+/* Select Wrapper */
+.product-key-info__select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.product-key-info__select {
+  width: 100%;
+  padding: 1.2rem 4rem 1.2rem 1.4rem;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: rgb(var(--color-foreground));
+  background-color: rgb(var(--color-background));
+  border: 1px solid rgba(var(--color-foreground), 0.2);
+  border-radius: 0.4rem;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-key-info__select:hover {
+  border-color: rgba(var(--color-foreground), 0.35);
+}
+
+.product-key-info__select:focus {
+  outline: none;
+  border-color: rgb(var(--color-foreground));
+  box-shadow: 0 0 0 1px rgb(var(--color-foreground));
+}
+
+.product-key-info__select-icon {
+  position: absolute;
+  right: 1.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.2rem;
+  height: auto;
+  pointer-events: none;
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+/* Supporting Hierarchy: Size Guide CTA */
+.product-key-info__size-guide {
+  margin-top: 1.2rem;
+  margin-bottom: 3rem;
+}
+
+.product-key-info__size-guide-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1rem 1.6rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: rgb(var(--color-foreground));
+  background-color: rgba(var(--color-foreground), 0.04);
+  border: 1px solid rgba(var(--color-foreground), 0.15);
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.product-key-info__size-guide-btn:hover {
+  background-color: rgba(var(--color-foreground), 0.08);
+  border-color: rgba(var(--color-foreground), 0.25);
+  transform: translateY(-1px);
+}
+
+.product-key-info__size-guide-btn:active {
+  transform: translateY(0);
+}
+
+.product-key-info__size-guide-btn:focus-visible {
+  outline: 2px solid rgb(var(--color-foreground));
+  outline-offset: 2px;
+}
+
+.product-key-info__size-guide-icon {
+  width: 1.8rem;
+  height: 1.8rem;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+/* Actions Group (Quantity + Buttons) */
+.product-key-info__actions-group {
+  margin-top: auto;
+  /* Push to bottom if needed */
+  border-top: 1px solid rgba(var(--color-foreground), 0.08);
+  padding-top: 2rem;
+}
+
+/* Quantity Selector */
+.product-key-info__quantity {
+  margin-bottom: 2rem;
+}
+
+.product-key-info__quantity-label {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: rgb(var(--color-foreground));
+}
+
+.product-key-info__quantity-wrapper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(var(--color-foreground), 0.2);
+  border-radius: 0.4rem;
+  width: 14rem;
+  height: 4.5rem;
+}
+
+.quantity__button {
+  width: 4.5rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgb(var(--color-foreground));
+  transition: background-color 0.2s ease;
+}
+
+.quantity__button:hover {
+  background-color: rgba(var(--color-foreground), 0.04);
+}
+
+.quantity__button svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.quantity__input {
+  width: 5rem;
+  height: 100%;
+  text-align: center;
+  border: none;
+  border-left: 1px solid rgba(var(--color-foreground), 0.1);
+  border-right: 1px solid rgba(var(--color-foreground), 0.1);
+  background: transparent;
+  color: rgb(var(--color-foreground));
+  font-size: 1.5rem;
+  font-weight: 500;
+  -moz-appearance: textfield;
+}
+
+.quantity__input::-webkit-outer-spin-button,
+.quantity__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantity__input:focus {
+  outline: none;
+  background-color: rgba(var(--color-foreground), 0.02);
+}
+
+/* Buttons */
+.product-key-info__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.product-key-info__add-to-cart {
+  width: 100%;
+  padding: 1.4rem 2rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: rgb(var(--color-button-text));
+  background-color: transparent;
+  border: 1px solid rgb(var(--color-button));
+  color: rgb(var(--color-button));
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.product-key-info__add-to-cart:hover {
+  border-width: 2px;
+  padding: 1.3rem 1.9rem;
+  /* Adjust for border width change */
+}
+
+.button--primary {
+  width: 100%;
+  padding: 1.4rem 2rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: rgb(var(--color-button-text));
+  background-color: rgb(var(--color-button));
+  border: 1px solid rgb(var(--color-button));
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.button--primary:hover {
+  opacity: 0.9;
+}
+
+/* Responsive: Tablet and up */
+@media screen and (min-width: 750px) {
+  .product-key-info__grid {
+    grid-template-columns: 1fr 1fr;
+    /* 2 Columns */
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .product-key-info__inner {
+    padding: 4rem 2rem;
+  }
+
+  .product-key-info__content {
+    position: sticky;
+    top: 2rem;
+    /* Sticky right column */
+  }
+
+  .product-key-info__title {
+    font-size: 3.2rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .product-key-info__price {
+    margin-bottom: 2.4rem;
+  }
+
+  .product-key-info__price-regular,
+  .product-key-info__price-sale {
+    font-size: 2.4rem;
+  }
+
+  .product-key-info__price-compare {
+    font-size: 1.8rem;
+  }
+
+  .product-key-info__options {
+    margin-bottom: 2.4rem;
+  }
+
+  .product-key-info__option-label {
+    font-size: 1.5rem;
+  }
+
+  .product-key-info__select {
+    font-size: 1.6rem;
+  }
+
+  .product-key-info__buttons {
+    flex-direction: row;
+    /* Side by side buttons on larger screens if desired, or keep stacked */
+  }
+
+  .product-key-info__add-to-cart,
+  .button--primary {
+    flex: 1;
+  }
+}
+
+/* ============================================
+   Size Guide Drawer - Base Styles
+   ============================================ */
+
+.size-guide-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.size-guide-drawer[hidden] {
+  display: none;
+}
+
+/* Overlay */
+.size-guide-drawer__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+.size-guide-drawer.is-open .size-guide-drawer__overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Drawer Panel */
+.size-guide-drawer__panel {
+  position: absolute;
+  background-color: rgb(var(--color-background));
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+
+  /* Mobile: slide from bottom */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 85vh;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.size-guide-drawer.is-open .size-guide-drawer__panel {
+  transform: translateY(0);
+}
+
+/* Desktop: slide from right */
+@media screen and (min-width: 750px) {
+  .size-guide-drawer__panel {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: 100%;
+    max-width: 50rem;
+    max-height: 100vh;
+    transform: translateX(100%);
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .size-guide-drawer.is-open .size-guide-drawer__panel {
+    transform: translateX(0);
+  }
+}
+
+/* ============================================
+   Drawer Header
+   ============================================ */
+
+.size-guide-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.1);
+  flex-shrink: 0;
+}
+
+.size-guide-drawer__title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+}
+
+.size-guide-drawer__close {
+  background: none;
+  border: none;
+  padding: 0.8rem;
+  cursor: pointer;
+  color: rgb(var(--color-foreground));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.4rem;
+  transition: background-color 0.2s ease;
+}
+
+.size-guide-drawer__close:hover {
+  background-color: rgba(var(--color-foreground), 0.05);
+}
+
+.size-guide-drawer__close:focus-visible {
+  outline: 2px solid rgb(var(--color-foreground));
+  outline-offset: 2px;
+}
+
+/* ============================================
+   Drawer Content
+   ============================================ */
+
+.size-guide-drawer__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Loading State */
+.size-guide-drawer__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+.loading-spinner {
+  width: 4rem;
+  height: 4rem;
+  border: 3px solid rgba(var(--color-foreground), 0.1);
+  border-top-color: rgb(var(--color-foreground));
+  border-radius: 50%;
+  animation: spinner-rotate 0.8s linear infinite;
+  margin-bottom: 1.5rem;
+}
+
+@keyframes spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Empty State */
+.size-guide-drawer__empty {
+  padding: 4rem 2rem;
+  text-align: center;
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+.size-guide-drawer__empty p {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+/* Error State */
+.size-guide-drawer__error {
+  padding: 2rem;
+  background-color: rgba(220, 53, 69, 0.1);
+  border-left: 4px solid rgb(220, 53, 69);
+  color: rgb(var(--color-foreground));
+  border-radius: 0.4rem;
+}
+
+.size-guide-drawer__error-title {
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+  color: rgb(220, 53, 69);
+}
+
+.size-guide-drawer__error-message {
+  margin: 0;
+  font-size: 1.4rem;
+  opacity: 0.8;
+}
+
+/* ============================================
+   Content Rendering
+   ============================================ */
+
+.size-guide-drawer__data {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.size-guide-drawer__data h3 {
+  margin: 0 0 2.5rem 0;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: rgb(var(--color-foreground));
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+.size-guide-drawer__data-body {
+  color: rgba(var(--color-foreground), 0.85);
+  line-height: 1.6;
+}
+
+/* Rich text content styling */
+.size-guide-drawer__data-body h1,
+.size-guide-drawer__data-body h2,
+.size-guide-drawer__data-body h3,
+.size-guide-drawer__data-body h4 {
+  margin: 0 0 1.5rem 0;
+  font-weight: 700;
+  color: rgb(var(--color-foreground));
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.size-guide-drawer__data-body h1 {
+  font-size: 2.2rem;
+}
+
+.size-guide-drawer__data-body h2 {
+  font-size: 2rem;
+}
+
+.size-guide-drawer__data-body h3 {
+  font-size: 1.8rem;
+}
+
+.size-guide-drawer__data-body h4 {
+  font-size: 1.6rem;
+}
+
+.size-guide-drawer__data-body p {
+  margin: 0 0 1.5rem 0;
+}
+
+.size-guide-drawer__data-body ul,
+.size-guide-drawer__data-body ol {
+  margin: 0 0 1.5rem 0;
+  padding-left: 2rem;
+}
+
+.size-guide-drawer__data-body li {
+  margin-bottom: 0.5rem;
+}
+
+.size-guide-drawer__data-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 1.4rem;
+  background-color: rgb(var(--color-background));
+  border: 1px solid rgba(var(--color-foreground), 0.15);
+  border-radius: 0.8rem;
+  overflow: hidden;
+}
+
+.size-guide-drawer__data-body th,
+.size-guide-drawer__data-body td {
+  padding: 1.4rem 1.6rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+  border-right: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.size-guide-drawer__data-body th:last-child,
+.size-guide-drawer__data-body td:last-child {
+  border-right: none;
+}
+
+.size-guide-drawer__data-body tr:last-child td {
+  border-bottom: none;
+}
+
+.size-guide-drawer__data-body th {
+  background-color: rgba(var(--color-foreground), 0.03);
+  font-weight: 700;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgb(var(--color-foreground));
+  padding: 1.6rem;
+  border-bottom: 2px solid rgba(var(--color-foreground), 0.12);
+}
+
+.size-guide-drawer__data-body td {
+  color: rgba(var(--color-foreground), 0.9);
+  font-weight: 500;
+}
+
+/* Alternating row colors for better readability */
+.size-guide-drawer__data-body tbody tr:nth-child(even) {
+  background-color: rgba(var(--color-foreground), 0.02);
+}
+
+.size-guide-drawer__data-body tbody tr:hover {
+  background-color: rgba(var(--color-foreground), 0.04);
+  transition: background-color 0.2s ease;
+}
+
+/* First column styling (size labels) */
+.size-guide-drawer__data-body td:first-child {
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+}
+
+/* Mobile responsive table */
+@media screen and (max-width: 749px) {
+  .size-guide-drawer__data-body table {
+    font-size: 1.2rem;
+  }
+
+  .size-guide-drawer__data-body th,
+  .size-guide-drawer__data-body td {
+    padding: 1rem 0.8rem;
+  }
+
+  .size-guide-drawer__data-body th {
+    font-size: 1.1rem;
+    padding: 1.2rem 0.8rem;
+  }
+}
+
+/* ============================================
+   Accessibility
+   ============================================ */
+
+/* Focus trap indicator */
+.size-guide-drawer:focus-within {
+  outline: none;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+  .size-guide-drawer__panel,
+  .size-guide-drawer__overlay,
+  .size-guide-drawer__close,
+  .loading-spinner,
+  .size-guide-drawer__data {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .size-guide-drawer__panel {
+    border: 2px solid rgb(var(--color-foreground));
+  }
+
+  .size-guide-drawer__close:focus-visible {
+    outline-width: 3px;
+  }
+}

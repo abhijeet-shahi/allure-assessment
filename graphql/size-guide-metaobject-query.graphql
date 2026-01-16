@@ -1,0 +1,13 @@
+query GetMetaobjects($type: String!, $first: Int!) {
+  metaobjects(type: $type, first: $first) {
+    edges {
+      node {
+        handle
+        fields {
+          key
+          value
+        }
+      }
+    }
+  }
+}
